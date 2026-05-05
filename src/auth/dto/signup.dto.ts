@@ -13,11 +13,3 @@ export class SignupDto {
   @IsNotEmpty()
   name?: string;
 }
-
-export class LoginDto {
-  @IsEmail()
-  email: string;
-
-  @IsString()
-  password: string;
-}

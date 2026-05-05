@@ -1,19 +1,11 @@
-import {
-  Controller,
-  Post,
-  Body,
-  UseGuards,
-  Get,
-  Request,
-} from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { SignupDto } from './dto/auth.dto';
-import { LocalAuthGuard } from './guards/local-auth.guard';
-import { JwtAuthGuard } from './guards/jwt-auth.guard';
-import { RolesGuard } from './guards/roles.guard';
+import { Controller, Post, Body, UseGuards, Get, Request } from '@nestjs/common';
 import { Role, User } from '@prisma/client';
-import { Roles } from './decorators/roles.decorator';
-import type { LocalRequestWithUser, RequestWithUser } from './interfaces/auth.interface';
+import { AuthService } from './auth.service';
+import { SignupDto } from './dto';
+import { LocalAuthGuard } from './guards/local-auth.guard';
+import { JwtAuthGuard, RolesGuard } from '../common/guards';
+import { Roles } from '../common/decorators';
+import type { LocalRequestWithUser, RequestWithUser } from './interfaces';
 
 @Controller('auth')
 export class AuthController {

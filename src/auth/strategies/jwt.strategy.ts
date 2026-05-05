@@ -2,7 +2,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable } from '@nestjs/common';
 import { Role } from '@prisma/client';
-import { UserPayload } from '../interfaces/auth.interface';
+import type { UserPayload } from '../interfaces';
 
 interface JwtPayload {
   sub: string;
