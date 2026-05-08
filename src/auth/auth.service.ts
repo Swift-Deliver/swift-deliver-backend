@@ -5,6 +5,8 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '../users/users.service';
+import { NotificationsService } from '../notifications/notifications.service';
+import { welcomeEmail } from '../notifications/templates';
 import { SignupDto } from './dto';
 import * as bcrypt from 'bcrypt';
 import { User } from '@prisma/client';
@@ -14,6 +16,7 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
+    private notificationsService: NotificationsService,
   ) {}
 
   async signup(signupDto: SignupDto): Promise<Omit<User, 'password'>> {
@@ -31,6 +34,13 @@ export class AuthService {
     });
 
     const { password: _password, ...result } = user;
+
+    // Fire-and-forget welcome email — never blocks signup
+    const { subject, html } = welcomeEmail(user.name ?? 'there');
+    this.notificationsService
+      .sendEmail({ to: user.email, subject, html })
+      .catch(() => {});
+
     return result;
   }
 
